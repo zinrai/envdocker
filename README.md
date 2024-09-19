@@ -57,6 +57,10 @@ Desired=Unknown/Install/Remove/Purge/Hold
 ii  docker.io      20.10.24+dfsg1-1+b3 amd64        Linux container runtime
 ```
 
+## Configuration
+
+By default, `envdocker` sets the `DOCKER_HOST` to `tcp://localhost:2375`. When using SSH tunneling, you need to bind port 2375 on the remote server to your host PC. Ensure that your SSH tunnel is set up to forward this port before using `envdocker`.
+
 ## Usage
 
 The basic syntax for using `envdocker` is:
@@ -78,10 +82,6 @@ Create a Kubernetes cluster using kind:
 ```
 $ envdocker -- kind create cluster --config test-cluster.yml
 ```
-
-## Configuration
-
-By default, `envdocker` sets the `DOCKER_HOST` to `tcp://localhost:2375`. When using SSH tunneling, you need to bind port 2375 on the remote server to your host PC. Ensure that your SSH tunnel is set up to forward this port before using `envdocker`.
 
 ## License
 
