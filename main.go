@@ -27,7 +27,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	cmd := exec.Command(args[0], args[1:]...)
+	// Check if the command exists
+	cmdPath, err := exec.LookPath(args[0])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "envdocker: Error: Command '%s' not found in PATH\n", args[0])
+		fmt.Fprintf(os.Stderr, "Please make sure the command is installed and accessible.\n")
+		os.Exit(1)
+	}
+
+	cmd := exec.Command(cmdPath, args[1:]...)
 
 	env := os.Environ()
 	env = append(env, fmt.Sprintf("DOCKER_HOST=%s", dockerHost))
@@ -40,7 +48,7 @@ func main() {
 	fmt.Printf("envdocker: Executing with DOCKER_HOST=%s\n", dockerHost)
 	fmt.Printf("Command: %s\n", strings.Join(args, " "))
 
-	err := cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "envdocker: Error executing command: %v\n", err)
 		os.Exit(1)
